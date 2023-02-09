@@ -345,7 +345,8 @@ set_target_properties(Catch2 PROPERTIES
                           DEBUG_POSTFIX "d"
                                 VERSION ${PROJECT_VERSION}
                               SOVERSION ${PROJECT_VERSION})
-
+target_compile_options(Catch2 PRIVATE "-Wno-error=restrict")
+                              
 # depend on bunch of C++11 and C++14 features to have C++14 enabled by default
 target_compile_features(Catch2
   PUBLIC
@@ -397,6 +398,7 @@ set_target_properties(Catch2WithMain
       SOVERSION ${PROJECT_VERSION}
 )
 set_target_properties(Catch2WithMain PROPERTIES DEBUG_POSTFIX "d")
+target_compile_options(Catch2WithMain PRIVATE "-Wno-error=restrict")
 
 if (NOT_SUBPROJECT)
     # create and install an export set for catch target as Catch2::Catch
