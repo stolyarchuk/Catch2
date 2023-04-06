@@ -404,7 +404,7 @@ set_target_properties(Catch2WithMain
 set_target_properties(Catch2WithMain PROPERTIES DEBUG_POSTFIX "d")
 target_compile_options(Catch2WithMain PRIVATE "-Wno-error=restrict")
 
-if (NOT_SUBPROJECT)
+if (CATCH_INSTALL)
     # create and install an export set for catch target as Catch2::Catch
     install(
       TARGETS

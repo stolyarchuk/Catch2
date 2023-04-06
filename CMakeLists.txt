@@ -1,13 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-# detect if Catch is being bundled,
-# disable testsuite in that case
-if(NOT DEFINED PROJECT_NAME)
-  set(NOT_SUBPROJECT ON)
-else()
-  set(NOT_SUBPROJECT OFF)
-endif()
-
+option(CATCH_INSTALL "Install catch" ON)
 option(CATCH_INSTALL_DOCS "Install documentation alongside library" ON)
 option(CATCH_INSTALL_EXTRAS "Install extras (CMake scripts, debugger helpers) alongside library" ON)
 option(CATCH_DEVELOPMENT_BUILD "Build tests, enable warnings, enable Werror, etc" OFF)
@@ -45,7 +38,7 @@ project(Catch2
 # Then we also add path that we use to configure the project, but is of
 # no use to top level projects.
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/extras")
-if (NOT NOT_SUBPROJECT)
+if (NOT CATCH_INSTALL)
   set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE)
 endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
@@ -81,7 +74,7 @@ set(EXAMPLES_DIR ${CATCH_DIR}/examples)
 add_subdirectory(src)
 
 # Build tests only if requested
-if (BUILD_TESTING AND CATCH_BUILD_TESTING AND NOT_SUBPROJECT)
+if (BUILD_TESTING AND CATCH_BUILD_TESTING AND CATCH_INSTALL)
     find_package(PythonInterp 3 REQUIRED)
     if (NOT PYTHONINTERP_FOUND)
         message(FATAL_ERROR "Python not found, but required for tests")
@@ -108,7 +101,7 @@ endif()
 # Only perform the installation steps when Catch is not being used as
 # a subproject via `add_subdirectory`, or the destinations will break,
 # see https://github.com/catchorg/Catch2/issues/1373
-if (NOT_SUBPROJECT)
+if (CATCH_INSTALL)
     configure_package_config_file(
         ${CMAKE_CURRENT_LIST_DIR}/CMake/Catch2Config.cmake.in
         ${CMAKE_CURRENT_BINARY_DIR}/Catch2Config.cmake
@@ -198,4 +191,4 @@ if (NOT_SUBPROJECT)
 
     include( CPack )
 
-endif(NOT_SUBPROJECT)
+endif()
