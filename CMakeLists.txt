@@ -159,7 +159,7 @@ if (CATCH_INSTALL)
 
     ## Provide some pkg-config integration
     set(PKGCONFIG_INSTALL_DIR
-        "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig"
+        "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
         CACHE PATH "Path where catch2.pc is installed"
     )
     configure_file(
