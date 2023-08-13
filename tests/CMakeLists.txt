@@ -78,6 +78,7 @@ endif(MSVC) #Temporary workaround
 set(TEST_SOURCES
         ${SELF_TEST_DIR}/TestRegistrations.cpp
         ${SELF_TEST_DIR}/IntrospectiveTests/Algorithms.tests.cpp
+        ${SELF_TEST_DIR}/IntrospectiveTests/AssertionHandler.tests.cpp
         ${SELF_TEST_DIR}/IntrospectiveTests/Clara.tests.cpp
         ${SELF_TEST_DIR}/IntrospectiveTests/CmdLine.tests.cpp
         ${SELF_TEST_DIR}/IntrospectiveTests/CmdLineHelpers.tests.cpp
@@ -620,6 +621,18 @@ if (CATCH_ENABLE_CONFIGURE_TESTS)
         )
 
     endforeach()
+endif()
+
+if (CATCH_ENABLE_CMAKE_HELPER_TESTS)
+    add_test(NAME "CMakeHelper::DiscoverTests"
+      COMMAND
+        "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_LIST_DIR}/TestScripts/DiscoverTests/VerifyRegistration.py" "${CATCH_DIR}" "${CMAKE_CURRENT_BINARY_DIR}"
+    )
+    set_tests_properties("CMakeHelper::DiscoverTests"
+      PROPERTIES
+        COST 240
+        LABELS "uses-python"
+    )
 endif()
 
 foreach (reporterName # "Automake" - the simple .trs format does not support any kind of comments/metadata

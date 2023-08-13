@@ -2,6 +2,7 @@
 
 # Release notes
 **Contents**<br>
+[3.4.0](#340)<br>
 [3.3.2](#332)<br>
 [3.3.1](#331)<br>
 [3.3.0](#330)<br>
@@ -55,6 +56,34 @@
 [Older versions](#older-versions)<br>
 [Even Older versions](#even-older-versions)<br>
 
+
+
+## 3.4.0
+
+### Improvements
+* `VectorEquals` supports elements that provide only `==` and not `!=` (#2648)
+* Catch2 supports compiling with IAR compiler (#2651)
+* Various small internal performance improvements
+* Various small internal compilation time improvements
+* XMLReporter now reports location info for INFO and WARN (#1251)
+  * This bumps up the xml format version to 3
+* Documented that `SKIP` in generator constructor can be used to handle empty  generator (#1593)
+* Added experimental static analysis support to `TEST_CASE` and `SECTION` macros (#2681)
+  * The two macros are redefined in a way that helps the SA tools reason about the possible paths through a test case with sections.
+  * The support is controlled by the `CATCH_CONFIG_EXPERIMENTAL_STATIC_ANALYSIS_SUPPORT` option and autodetects clang-tidy and Coverity.
+* `*_THROWS`, `*_THROWS_AS`, etc now suppress warning coming from `__attribute__((warn_unused_result))` on GCC  (#2691)
+  * Unlike plain `[[nodiscard]]`, this warning is not silenced by void cast. WTF GCC?
+
+### Fixes
+* Fixed `assertionStarting` events being sent after the expr is evaluated (#2678)
+* Errors in `TEST_CASE` tags are now reported nicely (#2650)
+
+### Miscellaneous
+* Bunch of improvements to `catch_discover_tests`
+  * Added DISCOVERY_MODE option, so the discovery can happen either post build or pre-run.
+  * Fixed handling of semicolons and backslashes in test names (#2674, #2676)
+* meson build can disable building tests (#2693)
+* meson build properly sets meson version 0.54.1 as the minimal supported version (#2688)
 
 
 ## 3.3.2
@@ -149,7 +178,7 @@
 
 ### Fixes
 * Cleaned out some warnings and static analysis issues
-  * Suppressed `-Wcomma` warning rarely occuring in templated test cases (#2543)
+  * Suppressed `-Wcomma` warning rarely occurring in templated test cases (#2543)
   * Constified implementation details in `INFO` (#2564)
   * Made `MatcherGenericBase` copy constructor const (#2566)
 * Fixed serialization of test filters so the output roundtrips
@@ -517,7 +546,7 @@ v3 releases.
   * The `SECTION`(s) before the `GENERATE` will not be run multiple times, the following ones will.
 * Added `-D`/`--min-duration` command line flag (#1910)
   * If a test takes longer to finish than the provided value, its name and duration will be printed.
-  * This flag is overriden by setting `-d`/`--duration`.
+  * This flag is overridden by setting `-d`/`--duration`.
 
 ### Fixes
 * `TAPReporter` no longer skips successful assertions (#1983)
@@ -585,7 +614,7 @@ v3 releases.
 ### Fixes
 * Fixed computation of benchmarking column widths in ConsoleReporter (#1885, #1886)
 * Suppressed clang-tidy's `cppcoreguidelines-pro-type-vararg` in assertions (#1901)
-  * It was a false positive trigered by the new warning support workaround
+  * It was a false positive triggered by the new warning support workaround
 * Fixed bug in test specification parser handling of OR'd patterns using escaping (#1905)
 
 ### Miscellaneous
@@ -922,7 +951,7 @@ v3 releases.
 
 ### Contrib
 * `ParseAndAddCatchTests` has learned how to use `DISABLED` CTest property (#1452)
-* `ParseAndAddCatchTests` now works when there is a whitspace before the test name (#1493)
+* `ParseAndAddCatchTests` now works when there is a whitespace before the test name (#1493)
 
 
 ### Miscellaneous

@@ -11,8 +11,11 @@
 #include <catch2/internal/catch_test_failure_exception.hpp>
 #include <catch2/internal/catch_move_and_forward.hpp>
 
+#include <exception>
+
 namespace Catch {
 
+#if !defined(CATCH_CONFIG_DISABLE_EXCEPTIONS)
     namespace {
         static std::string tryTranslators(
             std::vector<
@@ -26,9 +29,9 @@ namespace Catch {
         }
 
     }
+#endif //!defined(CATCH_CONFIG_DISABLE_EXCEPTIONS)
 
-    ExceptionTranslatorRegistry::~ExceptionTranslatorRegistry() {
-    }
+    ExceptionTranslatorRegistry::~ExceptionTranslatorRegistry() = default;
 
     void ExceptionTranslatorRegistry::registerTranslator( Detail::unique_ptr<IExceptionTranslator>&& translator ) {
         m_translators.push_back( CATCH_MOVE( translator ) );
